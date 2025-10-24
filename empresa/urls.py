@@ -3,6 +3,7 @@ from django.urls import path, include
 from usuarios import views
 from django.contrib.auth.views import LogoutView
 from django.contrib.auth import views as auth_views
+from django.views.generic.base import TemplateView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -26,31 +27,52 @@ urlpatterns = [
     path('modulo7/', views.modulo7, name='modulo7'),
     
     # URLs de recuperación de contraseña
-    path('password-reset/', 
+    path('password_reset/', 
          auth_views.PasswordResetView.as_view(
              template_name='registration/password_reset_form.html',
              email_template_name='registration/password_reset_email.html',
              subject_template_name='registration/password_reset_subject.txt',
-             success_url='/password-reset/done/'
+             success_url='/password_reset/done/'
          ), 
          name='password_reset'),
     
-    path('password-reset/done/', 
+    # Página de confirmación después de enviar el email
+    path('password_reset/done/', 
          auth_views.PasswordResetDoneView.as_view(
              template_name='registration/password_reset_done.html'
          ), 
          name='password_reset_done'),
     
-    path('password-reset-confirm/<uidb64>/<token>/', 
+    # ✅ URL CRÍTICA - Para el enlace del email (formato CORRECTO)
+    path('reset/<uidb64>/<token>/', 
          auth_views.PasswordResetConfirmView.as_view(
              template_name='registration/password_reset_confirm.html',
-             success_url='/password-reset-complete/'
+             success_url='/reset/done/'
          ), 
          name='password_reset_confirm'),
     
-    path('password-reset-complete/', 
+    # Página final después de cambiar la contraseña
+    path('reset/done/', 
          auth_views.PasswordResetCompleteView.as_view(
              template_name='registration/password_reset_complete.html'
          ), 
          name='password_reset_complete'),
+    
+    # 🔐 URLs de LOGIN/LOGOUT (si las necesitas)
+    path('login/', 
+         auth_views.LoginView.as_view(
+             template_name='registration/login.html'
+         ), 
+         name='login'),
+    
+    path('logout/', 
+         auth_views.LogoutView.as_view(
+             template_name='registration/logged_out.html'
+         ), 
+         name='logout'),
+    
+    # Página de inicio (opcional)
+    path('', TemplateView.as_view(template_name='home.html'), name='home'),
 ]
+
+
