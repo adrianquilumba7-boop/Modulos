@@ -126,16 +126,16 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-DEFAULT_FROM_EMAIL = 'tuapp@ejemplo.com'
-SITE_URL = 'http://localhost:8000'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'adrianquilumba7@gmail.com'  # Tu correo
+EMAIL_HOST_PASSWORD = 'sblq maog sigm apzi'  # La contraseña de aplicación
+DEFAULT_FROM_EMAIL = 'adrianquilumba7@gmail.com'
 
-
-# Default primary key field type
-# https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
-
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-LOGIN_URL = '/accounts/login/'
-LOGIN_REDIRECT_URL = '/perfil/'
-LOGOUT_REDIRECT_URL = '/accounts/login/'
+# URLs de recuperación de contraseña
+LOGIN_URL = 'login'  # Tu URL de login personalizada
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
 
